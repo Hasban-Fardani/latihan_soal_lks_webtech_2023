@@ -1,0 +1,62 @@
+{
+    "version": 2,
+    "builds": [
+        {
+            "src": "/api/index.php",
+            "use": "vercel-php@0.7.0"
+        },
+        {
+            "src": "/public/**",
+            "use": "@vercel/static"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(css|js|build|images|assets)/(.*)",
+            "dest": "/public/$1/$2"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "/api/index.php"
+        },
+        {
+            "src": "/build/(.*)",
+            "dest": "/public/build/"
+        },
+        {
+            "src": "/resources/(.*)",
+            "dest": "/public/resources/"
+        },
+        {
+            "src": "/favicon/(.*)",
+            "dest": "/public/favicon/"
+        }
+    ],
+    "env": {
+        "APP_NAME": "Vercel Laravel",
+        "APP_KEY": "base64:rrSd6+2BMJ6aZ54EzNO8aDlWXfY0C+wXIZBOC1/oeu8=",
+        "APP_ENV": "production",
+        "APP_DEBUG": "false",
+        "APP_URL": "https://backend-lks-webtech-2023.vercel.app/",
+        "APP_CONFIG_CACHE": "/tmp/config.php",
+        "APP_EVENTS_CACHE": "/tmp/events.php",
+        "APP_PACKAGES_CACHE": "/tmp/packages.php",
+        "APP_ROUTES_CACHE": "/tmp/routes.php",
+        "APP_SERVICES_CACHE": "/tmp/services.php",
+        
+        "ASSET_URL": "https://backend-lks-webtech-2023.vercel.app/",
+        "DB_CONNECTION": "mysql",
+
+        "VERCEL_DEMO_MODE": "true",
+        "CACHE_DRIVER": "array",
+        "LOG_CHANNEL": "stderr",
+
+        "SESSION_DRIVER": "cookie",
+        "SESSION_LIFETIME": "120",
+        "SESSION_SECURE_COOKIE": "true",
+
+        "VIEW_COMPILED_PATH": "/tmp/views",
+        "SSR_TEMP_PATH": "/tmp/ssr",
+        "NODE_PATH": "node"
+    }
+}
