@@ -2,7 +2,7 @@
     "version": 2,
     "builds": [
         {
-            "src": "/api/index.php",
+            "src": "/public/index.php",
             "use": "vercel-php@0.7.0"
         },
         {
@@ -17,7 +17,7 @@
         },
         {
             "src": "/(.*)",
-            "dest": "/api/index.php"
+            "dest": "/public/index.php"
         },
         {
             "src": "/build/(.*)",
@@ -33,7 +33,7 @@
         }
     ],
     "env": {
-        "APP_NAME": "Vercel Laravel",
+        "APP_NAME": "LKSN 2023",
         "APP_KEY": "base64:rrSd6+2BMJ6aZ54EzNO8aDlWXfY0C+wXIZBOC1/oeu8=",
         "APP_ENV": "production",
         "APP_DEBUG": "false",
