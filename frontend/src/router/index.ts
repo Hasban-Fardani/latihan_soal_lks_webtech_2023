@@ -1,5 +1,12 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
+import CreateFormView from '../views/CreateFormView.vue'
+import DetailFormView from '../views/DetailFormView.vue'
+import ManageFormView from '../views/ManageFormView.vue'
+import SubmitFormView from '../views/SubmitFormView.vue'
+import ResponsesView from '../views/ResponsesView.vue'
+import NotFoundView from '../views/NotFoundView.vue'
+import ForbiddenView from '../views/ForbiddenView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -10,13 +17,40 @@ const router = createRouter({
       component: HomeView
     },
     {
-      path: '/about',
-      name: 'about',
-      // route level code-splitting
-      // this generates a separate chunk (About.[hash].js) for this route
-      // which is lazy-loaded when the route is visited.
-      component: () => import('../views/AboutView.vue')
-    }
+      path: '/create-form',
+      name: 'create-form',
+      component: CreateFormView
+    },
+    {
+      path: '/detail-form',
+      name: 'detail-form',
+      component: DetailFormView
+    },
+    {
+      path: '/manage-form',
+      name: 'manage-form',
+      component: ManageFormView
+    },
+    {
+      path: '/submit-form',
+      name: 'submit-form',
+      component: SubmitFormView
+    },
+    {
+      path: '/responses',
+      name: 'responses',
+      component: ResponsesView
+    },
+    {
+      path: '/:notFound',
+      name: 'not-found',
+      component: NotFoundView
+    },
+    {
+      path: '/forbidden',
+      name: 'forbidden',
+      component: ForbiddenView
+    },
   ]
 })
 
