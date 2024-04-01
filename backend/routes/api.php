@@ -2,13 +2,10 @@
 
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\LogoutController;
-use App\Http\Controllers\FormController;
-use Illuminate\Http\Request;
+use App\Http\Controllers\Api\FormController;
+use App\Http\Controllers\Api\QuestionController;
+use App\Http\Controllers\Api\ResponseController;
 use Illuminate\Support\Facades\Route;
-
-Route::get('/user', function (Request $request) {
-    return $request->user();
-})->middleware('auth:sanctum');
 
 Route::prefix('v1')->group(function () {
     // auth routes
@@ -17,14 +14,21 @@ Route::prefix('v1')->group(function () {
         Route::post('/logout', LogoutController::class);
     });  
 
-    // required login    
+    // === required login ===    
     Route::middleware('auth:sanctum')->group(function () {
        
         Route::apiResource('forms', FormController::class)
-           ->except('show');
+            ->except('show');
 
+        Route::apiResource('forms.questions', QuestionController::class)
+            ->only(['store', 'destroy']);
+
+        Route::apiResource('forms.responses', ResponseController::class)
+            ->only(['index', 'store']);
     });
 
-    // not required login
+    // === not required login ===
+
+    // get form detail
     Route::get('forms/{form:slug}', [FormController::class, 'show']);
 });

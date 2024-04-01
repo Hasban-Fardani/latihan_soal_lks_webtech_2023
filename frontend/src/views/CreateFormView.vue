@@ -1,19 +1,10 @@
+<script setup> 
+import DefaultLayout from '@/layout/DefaultLayout.vue' 
+import VInput from '@/components/VInput.vue' 
+import VTextarea from '@/components/VTextarea.vue' 
+</script>
 <template>
-    <nav class="navbar navbar-expand-lg sticky-top bg-primary navbar-dark">
-      <div class="container">
-        <a class="navbar-brand" href="manage-forms.html">Formify</a>
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-         <li class="nav-item">
-           <a class="nav-link active" href="#">Administrator</a>
-         </li> 
-         <li class="nav-item">
-            <a href="index.html" class="btn bg-white text-primary ms-4">Logout</a>
-         </li>
-       </ul> 
-      </div>
-    </nav>
-
-    <main>
+   <DefaultLayout>
       <div class="hero py-5 bg-light">
          <div class="container">
             <h2>Create Form</h2>
@@ -26,23 +17,12 @@
                <div class="col-md-6 col-lg-4">
                   
                   <form action="detail-form.html">
-                     <!-- s: input -->
-                     <div class="form-group mb-3">
-                        <label for="name" class="mb-1 text-muted">Form Name</label>
-                        <input type="text" id="name" name="name" class="form-control" autofocus />
-                     </div>
+                     <VInput label="Form Name" name="name" type="text" autofocus />
 
-                     <!-- s: input -->
-                     <div class="form-group my-3">
-                        <label for="slug" class="mb-1 text-muted">Form Slug</label>
-                        <input type="text" id="slug" name="slug" class="form-control" />
-                     </div>
-
-                     <!-- s: input -->
-                     <div class="form-group my-3">
-                        <label for="description" class="mb-1 text-muted">Description</label>
-                        <textarea id="description" name="description" rows="4" class="form-control"></textarea>
-                     </div>
+                     <VInput label="Form Slug" name="slug" type="text" />
+                     
+                     <VTextarea label="Description" name="description" type="textarea" rows="4"/>
+                     
                      
                      <!-- s: input -->
                      <div class="form-group my-3">
@@ -66,5 +46,5 @@
             </div>
          </div>
       </div>
-    </main>
+   </DefaultLayout>
 </template>

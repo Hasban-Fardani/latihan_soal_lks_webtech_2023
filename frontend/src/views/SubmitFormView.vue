@@ -1,5 +1,8 @@
+<script setup>
+import DefaultLayout from '@/layout/DefaultLayout.vue';
+</script>
 <template>
-      <main>
+   <DefaultLayout>
       <div class="hero py-5 bg-light">
          <div class="container text-center"> 
             <h2 class="mb-3">
@@ -10,13 +13,13 @@
             </div>
          </div>
       </div>
-
+   
       <div class="py-5">
          <div class="container"> 
-
+   
             <div class="row justify-content-center ">
                <div class="col-lg-5 col-md-6"> 
-
+   
                   <div class="text-muted">
                      <span class="text-primary">budi@webtech.id</span> <small><i>(shared)</i></small>
                   </div>
@@ -117,11 +120,12 @@
                         <button class="btn btn-primary">Submit</button>
                      </div>
                   </form>
-
+   
                </div>
              </div>  
             
          </div>
       </div>
-    </main>
+   </DefaultLayout>
+      
 </template>

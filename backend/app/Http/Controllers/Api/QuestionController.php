@@ -1,42 +1,46 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Models\Form;
 use App\Models\Question;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class QuestionController extends Controller
 {
     /**
-     * Display a listing of the resource.
-     */
-    public function index()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, Form $form)
     {
-        //
-    }
+        // validate request
+        $validator = Validator::make([
+            'name' => 'required',
+            'choice_type' => 'required|in:short_answer,paragraph,date,multiple_choice,dropdown,checkboxes',
+            'choices' => 'required_if:choice_type,multiple_choice,dropdown,checkboxes',
+            'is_required' => 'required|in:true,false|default:false',
+        ]);
 
-    /**
-     * Display the specified resource.
-     */
-    public function show(Question $question)
-    {
-        //
-    }
+        // validation fails
+        if ($validator->fails()) {
+            return response()->json([
+                'message' => 'Invalid field',
+                'errors' => $validator->errors(),
+            ]);
+        }
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Question $question)
-    {
-        //
+        // try to access other user form
+        if (auth()->user()->id != $form->creator_id) {
+            return response()->json([
+                'message' => 'Forbidden access'
+            ]);
+        }
+
+        return response()->json([
+            'message' => ''
+        ]);
     }
 
     /**

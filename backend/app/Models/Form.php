@@ -10,6 +10,7 @@ class Form extends Model
     use HasFactory;
     
     protected $guarded = [];
+    public $timestamps = false;
 
     public function responses()
     {
@@ -19,5 +20,10 @@ class Form extends Model
     public function questions()
     {
         return $this->hasMany(Question::class);
+    }
+    
+    public function allowed_domains()
+    {
+        return $this->hasMany(AllowedDomain::class);
     }
 }

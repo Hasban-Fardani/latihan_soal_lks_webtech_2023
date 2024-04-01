@@ -1,8 +1,12 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
+use App\Models\AllowedDomain;
 use App\Models\Form;
+use Exception;
+use Illuminate\Database\Eloquent\ModelNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 
@@ -13,36 +17,16 @@ class FormController extends Controller
      */
     public function index()
     {
-        return ;
+        $forms = Form::all();    
+        return response()->json([
+            'message' => 'Get all forms success',
+            'forms' => $forms,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    /**
- * Request
- * Headers:
- * Authorization: “Bearer <accessToken>”
- * 
- * Body (JSON):
- * {
- *   "name": "Stacks of Web Tech Members",
- *   "slug": "member-stacks",
- *   "allowed_domains": [ "webtech.id" ],
- *   "description": "To collect all of favorite stacks",
- *   "limit_one_response": true
- * }
- * Validation
- * :
- * name: 
- * required
- * slug:
- * required
- * unique
- * alphanumeric with special characters only dash “-” and dot “.” and without space
- * allowed_domains:
- * array 
- */
     public function store(Request $request)
     {
         $validator = Validator::make($request->all(), [
@@ -57,13 +41,40 @@ class FormController extends Controller
                 'errors' => $validator->errors(),
             ], 422);
         }
+
+        $data = $request->except('allowed_domains');
+        $data['creator_id'] = $request->user()->id;
+        $form = Form::create($data);
+
+        foreach ($request->input('allowed_domains') as $domain) {
+            AllowedDomain::create([
+                'form_id' => $form->id,
+                'domain' => $domain,
+            ]);
+        }
+
+        return response()->json([
+            'message' => 'Create form success',
+            'form' => $form,
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Form $form)
+    public function show(Request $request)
     {
-        //
+        $form = Form::whereSlug($request->slug)->with('questions')->first();
+
+        if (!$form) {
+            return response()->json([
+                'message' => 'Form not found',
+            ])->setStatusCode(404);
+        }
+
+        return response()->json([
+            'message' => 'Get form success',
+            'form' => $form,
+        ]);
     }
 }

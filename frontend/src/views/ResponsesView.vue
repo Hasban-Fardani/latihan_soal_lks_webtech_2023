@@ -44,10 +44,14 @@
 
                   <ul class="nav nav-tabs mb-2 justify-content-center">
                      <li class="nav-item">
-                        <a class="nav-link" href="detail-form.html">Questions</a>
+                        <RouterLink to="/detail-form" class="nav-link">
+                           Questions
+                        </RouterLink>
                      </li>
                      <li class="nav-item">
-                        <a class="nav-link active" href="responses.html">Responses</a>
+                        <RouterLink to="/responses" class="nav-link active">
+                           Responese
+                        </RouterLink>
                      </li> 
                   </ul>
                </div>
