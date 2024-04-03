@@ -12,6 +12,10 @@ class Form extends Model
     protected $guarded = [];
     public $timestamps = false;
 
+    public function getRouteKeyName(){
+        return 'slug';
+    }
+
     public function responses()
     {
         return $this->hasMany(Response::class);

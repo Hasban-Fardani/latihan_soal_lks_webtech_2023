@@ -1,7 +1,28 @@
 <script setup lang="ts">
+import axios from 'axios'
+import { useRouter } from 'vue-router';
 
+const router = useRouter()
+
+const BASE_URL = import.meta.env.VITE_BACKEND_URL
+
+let data = {
+   email: "",
+   password: ""
+}
+
+const onSubmit = () => {
+   axios.post(
+      `${BASE_URL}/auth/login`,
+      data
+   ).then((v) => {
+      localStorage.setItem('accessToken', v.data.user.accessToken)
+      router.push('/manage-form')
+   }).catch((v) => {
+      console.log("error", v)
+   })
+}
 </script>
-
 <template>
   <main>
       <section class="login">
@@ -13,24 +34,23 @@
                      <div class="card-body">
                         <h3 class="mb-3">Login</h3>
                         
-                        <form action="manage-forms.html"> 
+                        <form @submit.prevent="onSubmit"> 
                            <!-- s: input -->
                            <div class="form-group my-3">
                               <label for="email" class="mb-1 text-muted">Email Address</label>
-                              <input type="email" id="email" name="email" value="" class="form-control" autofocus />
+                              <input type="email" id="email" name="email" value="" class="form-control" autofocus v-model="data.email"/>
                            </div> 
 
                            <!-- s: input -->
                            <div class="form-group my-3">
                               <label for="password" class="mb-1 text-muted">Password</label>
-                              <input type="password" id="password" name="password" value="" class="form-control" />
+                              <input type="password" id="password" name="password" value="" class="form-control" v-model="data.password"/>
                            </div>
                            
                            <div class="mt-4">
                               <button type="submit" class="btn btn-primary">Login</button>
                            </div>
                         </form>
-
                      </div>
                   </div> 
                </div>

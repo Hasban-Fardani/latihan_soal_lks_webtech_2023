@@ -7,20 +7,23 @@ use App\Models\Form;
 use App\Models\Question;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class QuestionController extends Controller
 {
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request, Form $form)
+    public function store(Request $request)
     {
+        $must_have_choices = ['multiple choice', 'checkboxes', 'dropdown'];
+
         // validate request
-        $validator = Validator::make([
+        $validator = Validator::make($request->all(), [
             'name' => 'required',
-            'choice_type' => 'required|in:short_answer,paragraph,date,multiple_choice,dropdown,checkboxes',
-            'choices' => 'required_if:choice_type,multiple_choice,dropdown,checkboxes',
-            'is_required' => 'required|in:true,false|default:false',
+            'choice_type' => 'required|in:short answer,paragraph,date,multiple choice,dropdown,checkboxes',
+            'choices' => Rule::requiredIf(fn () => in_array($request->choice_type, $must_have_choices)),
+            'is_required' => 'required|boolean',
         ]);
 
         // validation fails
@@ -28,26 +31,65 @@ class QuestionController extends Controller
             return response()->json([
                 'message' => 'Invalid field',
                 'errors' => $validator->errors(),
-            ]);
+            ])->setStatusCode(422);
         }
 
-        // try to access other user form
-        if (auth()->user()->id != $form->creator_id) {
+        // get form 
+        $form = Form::whereSlug($request->route('form'))->first();
+        if(!$form) {
             return response()->json([
-                'message' => 'Forbidden access'
-            ]);
+                'message' => 'Form not found'
+            ])->setStatusCode(404);
         }
+
+        $data = $validator->validated();
+        $data['form_id'] = $form->id;
+
+        if (in_array($data['choice_type'], $must_have_choices)) {
+            $data['choices'] = implode(',', $data['choices']);
+        }
+
+        $question = Question::create($data);
 
         return response()->json([
-            'message' => ''
+            'message' => 'Add question success',
+            'question' => $question 
         ]);
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Question $question)
+    public function destroy(Request $request)
     {
         //
+        $form = Form::whereSlug($request->route('form'))->first();
+
+        if (!$form) {
+            return response()->json([
+                'message' => 'Form not found'
+            ])->setStatusCode(404);
+        }
+        
+        $question = Question::where('id',$request->route('question'))->first();
+        
+        if (!$question) {
+            return response()->json([
+                'message' => 'Question not found'
+            ])->setStatusCode(404);
+        }
+        
+        // try to access other user form
+        if (auth()->user()->id != $form->creator_id) {
+            return response()->json([
+                'message' => 'Forbidden access'
+            ])->setStatusCode(403);
+        }
+
+        $question->delete();
+
+        return response()->json([
+            'message' => 'Remove question success'
+        ]);
     }
 }

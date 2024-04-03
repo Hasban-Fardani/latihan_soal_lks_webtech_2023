@@ -11,9 +11,6 @@ class LoginController extends Controller
 {
     public function __invoke(Request $request)
     {
-
-        // dd($request->input('email'));
-
         $validator = Validator::make($request->all(), [
             'email' => 'required|email',
             'password' => 'required|min:5',
@@ -27,21 +24,21 @@ class LoginController extends Controller
         }
 
         $data = $request->only('email', 'password');
+
+        // login failed
         if (!auth()->attempt($data)) {
             return response()->json([
                 'message' => 'Email or password incorrect',
             ], 401);
         } 
 
-        $user = auth()->user();
-
+        $user = auth()->user()->select('id', 'name', 'email')->first();
+        $user->accessToken = $user->createToken('auth')->plainTextToken;
+        
+        // login success
         return response()->json([
-            'messsage' => 'Login success',
-            'user' => [
-                'name' => $user->name,
-                'email' => $user->email,
-                'accessToken' => $user->createToken('auth')->plainTextToken
-            ]
+            'message' => 'Login success',
+            'user' => $user,
         ]);
     }
 }

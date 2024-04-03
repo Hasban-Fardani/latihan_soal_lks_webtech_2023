@@ -12,10 +12,11 @@ class LogoutController extends Controller
         if (!auth('sanctum')->check()) {
             return response()->json([
                 'message' => 'Unauthenticated.'
-            ]);
+            ])->setStatusCode(401);
         }
 
         auth('sanctum')->user()->tokens()->delete();
+
         return response()->json([
             'message' => 'Logout success'
         ], 200);   

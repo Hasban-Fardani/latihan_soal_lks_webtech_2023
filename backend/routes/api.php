@@ -30,5 +30,5 @@ Route::prefix('v1')->group(function () {
     // === not required login ===
 
     // get form detail
-    Route::get('forms/{form:slug}', [FormController::class, 'show']);
+    Route::get('forms/{slug}', [FormController::class, 'show']);
 });

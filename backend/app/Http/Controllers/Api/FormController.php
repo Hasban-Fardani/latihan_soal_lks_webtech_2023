@@ -17,7 +17,7 @@ class FormController extends Controller
      */
     public function index()
     {
-        $forms = Form::all();    
+        $forms = Form::with('allowed_domains')->get();    
         return response()->json([
             'message' => 'Get all forms success',
             'forms' => $forms,
@@ -64,12 +64,29 @@ class FormController extends Controller
      */
     public function show(Request $request)
     {
-        $form = Form::whereSlug($request->slug)->with('questions')->first();
+        $form = Form::whereSlug($request->slug)->with(['questions', 'allowed_domains'])->first();
 
         if (!$form) {
             return response()->json([
                 'message' => 'Form not found',
             ])->setStatusCode(404);
+        }
+
+        $user = auth('sanctum')->user();
+        
+        if(!$user) {
+            return response()->json([
+                'message' => 'Unauthenticated',
+            ])->setStatusCode(401);
+        }
+        
+        // get user domain
+        list($userName, $domain) = explode('@', $user->email);
+
+        if (!in_array($domain, $form->allowed_domains->pluck('domain')->toArray())) {
+            return response()->json([
+                'message' => 'Forbidden access',
+            ])->setStatusCode(403);
         }
 
         return response()->json([
