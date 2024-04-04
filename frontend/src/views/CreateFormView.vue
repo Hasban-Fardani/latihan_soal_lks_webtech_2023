@@ -1,7 +1,5 @@
-<script setup> 
-import DefaultLayout from '@/layout/DefaultLayout.vue' 
-import VInput from '@/components/VInput.vue' 
-import VTextarea from '@/components/VTextarea.vue' 
+<script setup>
+import DefaultLayout from '@/layout/DefaultLayout.vue'
 </script>
 <template>
    <DefaultLayout>
@@ -15,27 +13,42 @@ import VTextarea from '@/components/VTextarea.vue'
          <div class="container">
             <div class="row">
                <div class="col-md-6 col-lg-4">
-                  
-                  <form action="detail-form.html">
-                     <VInput label="Form Name" name="name" type="text" autofocus />
 
-                     <VInput label="Form Slug" name="slug" type="text" />
-                     
-                     <VTextarea label="Description" name="description" type="textarea" rows="4"/>
-                     
-                     
+                  <form>
+
+                     <!-- s: input -->
+                     <div class="form-group my-3">
+                        <label for="name" class="mb-1 text-muted">Form Name</label>
+                        <input type="text" id="name" name="name" class="form-control" autofocus />
+                     </div>
+
+                     <!-- s: input -->
+                     <div class="form-group my-3">
+                        <label for="slug" class="mb-1 text-muted">Form slug</label>
+                        <input type="text" id="slug" name="slug" class="form-control" />
+                     </div>
+
+                     <VTextarea label="Description" name="description" type="textarea" :rows="4" />
+                     <!-- s: input -->
+                     <div class="form-group my-3">
+                        <label for="description" class="mb-1 text-muted">Description</label>
+                        <textarea name="description" id="description" cols="30" rows="4"
+                           class="form-control"></textarea>
+                     </div>
+
                      <!-- s: input -->
                      <div class="form-group my-3">
                         <label for="allowed-domains" class="mb-1 text-muted">Allowed Domains</label>
                         <input type="text" id="allowed-domains" name="allowed_domains" class="form-control" />
                         <div class="form-text">Separate domains using comma ",". Ignore for public access.</div>
                      </div>
-                     
+
                      <!-- s: input -->
                      <div class="form-check form-switch" aria-colspan="my-3">
-                        <input type="checkbox" id="limit_one_response" name="limit_one_response" class="form-check-input" role="switch"/>
+                        <input type="checkbox" id="limit_one_response" name="limit_one_response"
+                           class="form-check-input" role="switch" />
                         <label class="form-check-label" for="limit_one_response">Limit to 1 response</label>
-                      </div>
+                     </div>
 
                      <div class="mt-4">
                         <button type="submit" class="btn btn-primary">Save</button>

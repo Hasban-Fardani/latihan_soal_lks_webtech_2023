@@ -1,19 +1,19 @@
 <template>
-      <nav class="navbar navbar-expand-lg sticky-top bg-primary navbar-dark">
+   <nav class="navbar navbar-expand-lg sticky-top bg-primary navbar-dark">
       <div class="container">
-         <router-link to="/manage-form" class="navbar-brand">Formify</router-link>
-        <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-         <li class="nav-item">
-            <router-link to="/" class="nav-link active">Administrator</router-link>
-         </li> 
-         <li class="nav-item">
-            <router-link to="/" class="btn bg-white text-primary ms-4">Logout</router-link>
-         </li>
-       </ul> 
+         <router-link to="/manage-forms" class="navbar-brand">Formify</router-link>
+         <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+               <router-link to="/" class="nav-link active">Administrator</router-link>
+            </li>
+            <li class="nav-item">
+               <router-link to="/" class="btn bg-white text-primary ms-4">Logout</router-link>
+            </li>
+         </ul>
       </div>
-    </nav>
+   </nav>
 
-    <main>
+   <main>
 
       <div class="hero py-5 bg-light">
          <div class="container">
@@ -43,6 +43,6 @@
 
          </div>
       </div>
-      
-    </main>
+
+   </main>
 </template>

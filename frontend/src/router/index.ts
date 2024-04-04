@@ -2,7 +2,7 @@ import { createRouter, createWebHistory } from 'vue-router'
 import HomeView from '../views/HomeView.vue'
 import CreateFormView from '../views/CreateFormView.vue'
 import DetailFormView from '../views/DetailFormView.vue'
-import ManageFormView from '../views/ManageFormView.vue'
+import ManageFormsView from '../views/ManageFormsView.vue'
 import SubmitFormView from '../views/SubmitFormView.vue'
 import ResponsesView from '../views/ResponsesView.vue'
 import NotFoundView from '../views/NotFoundView.vue'
@@ -27,9 +27,9 @@ const router = createRouter({
       component: DetailFormView
     },
     {
-      path: '/manage-form',
-      name: 'manage-form',
-      component: ManageFormView
+      path: '/manage-forms',
+      name: 'manage-forms',
+      component: ManageFormsView
     },
     {
       path: '/submit-form',
@@ -50,7 +50,7 @@ const router = createRouter({
       path: '/forbidden',
       name: 'forbidden',
       component: ForbiddenView
-    },
+    }
   ]
 })
 

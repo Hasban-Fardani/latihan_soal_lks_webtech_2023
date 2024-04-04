@@ -80,6 +80,16 @@ class ResponseController extends Controller
                 'errors' => $validator->errors()
             ])->setStatusCode(422);
         }
+        
+        // if user submit twice
+        $checkResponse = Response::where('user_id', $user->id)
+            ->where('form_id', $form->id)
+            ->get();
+        if ($checkResponse){
+            return response()->json([
+                'message' => "You can not submit twice",
+            ])->setStatusCode(401);
+        }
 
         // create response
         $response = Response::create([
@@ -97,6 +107,4 @@ class ResponseController extends Controller
             'message' => 'Submit response success',
         ]);
     }
-
-    
 }
