@@ -1,5 +1,9 @@
 <script setup>
 import DefaultLayout from './DefaultLayout.vue'
+import { useRoute } from 'vue-router';
+
+const route = useRoute()
+const { slug } = route.params
 </script>
 <template>
     <DefaultLayout>
@@ -33,12 +37,12 @@ import DefaultLayout from './DefaultLayout.vue'
 
                         <ul class="nav nav-tabs mb-2 justify-content-center">
                             <li class="nav-item">
-                                <RouterLink to="/detail-form" class="nav-link active">
+                                <RouterLink :to="`/detail-form/${slug}`" class="nav-link active">
                                     Questions
                                 </RouterLink>
                             </li>
                             <li class="nav-item">
-                                <RouterLink to="/responses" class="nav-link">
+                                <RouterLink :to="`/responses/${slug}`" class="nav-link">
                                     Responese
                                 </RouterLink>
                             </li>

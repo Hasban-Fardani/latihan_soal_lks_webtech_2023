@@ -12,9 +12,8 @@ const logout = () => {
       }
     }
   ).then((v) => {
-    console.log('logout: ', v)
     localStorage.removeItem('accessToken')
-    router.push('/')
+    console.log('logout: ', v)
   }).catch((v) => {
     console.log("error", v)
   })
