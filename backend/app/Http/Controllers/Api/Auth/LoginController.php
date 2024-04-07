@@ -24,7 +24,7 @@ class LoginController extends Controller
         }
 
         $data = $request->only('email', 'password');
-
+        // dd($data);
         // login failed
         if (!auth()->attempt($data)) {
             return response()->json([
@@ -32,7 +32,7 @@ class LoginController extends Controller
             ], 401);
         } 
 
-        $user = auth()->user()->select('id', 'name', 'email')->first();
+        $user = auth('sanctum')->user()->select('id', 'name', 'email')->first();
         $user->accessToken = $user->createToken('auth')->plainTextToken;
         
         // login success

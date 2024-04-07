@@ -1,10 +1,12 @@
 <script setup>
 import axios from 'axios'
+import { useRouter } from 'vue-router';
 
-const BASE_URL = import.meta.env.VITE_BACKEND_URL
+const router = useRouter()
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 const logout = () => {
   axios.post(
-    `${BASE_URL}/auth/logout`,
+    `${BACKEND_URL}/auth/logout`,
     {},
     {
       headers: {
@@ -13,6 +15,7 @@ const logout = () => {
     }
   ).then((v) => {
     localStorage.removeItem('accessToken')
+    router.push('/')
     console.log('logout: ', v)
   }).catch((v) => {
     console.log("error", v)

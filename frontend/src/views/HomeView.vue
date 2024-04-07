@@ -5,7 +5,7 @@ import { ref } from 'vue'
 
 const router = useRouter()
 
-const BASE_URL = import.meta.env.VITE_BACKEND_URL
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 let data = {
    email: "",
@@ -17,7 +17,7 @@ let message = ref('')
 
 const onSubmit = () => {
    axios.post(
-      `${BASE_URL}/auth/login`,
+      `${BACKEND_URL}/auth/login`,
       data
    ).then((v) => {
       localStorage.setItem('accessToken', v.data.user.accessToken)

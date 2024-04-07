@@ -49,7 +49,7 @@ const router = createRouter({
       }
     },
     {
-      path: '/responses',
+      path: '/detail-form/:slug/responses',
       name: 'responses',
       component: ResponsesView,
       meta: {
@@ -72,9 +72,13 @@ const router = createRouter({
 router.beforeEach((to, from, next) => {
   const token = localStorage.getItem('accessToken')
   console.log('token: ', token)
-  console.log('current route: ', to.meta.requireAuth)
+  console.log('current route: ', to.fullPath)
   if (to.meta.requireAuth && !localStorage.getItem('accessToken')) {
     return next({ name: 'forbidden' })
+  }
+
+  if (to.name == 'login' && localStorage.getItem('accessToken')) {
+    return next({ name: 'manage-forms' })
   }
 
   return next()

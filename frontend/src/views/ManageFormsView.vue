@@ -2,11 +2,12 @@
 import axios from 'axios'
 import { ref, onMounted } from 'vue'
 import DefaultLayout from '@/layout/DefaultLayout.vue';
-import { useRoute } from 'vue-router';
+import { useRoute, useRouter } from 'vue-router';
 
-const BASE_URL = import.meta.env.VITE_BACKEND_URL
+const BACKEND_URL = import.meta.env.VITE_BACKEND_URL
 
 const route = useRoute()
+const router = useRouter()
 const { slug } = route.params
 
 let forms = ref([])
@@ -14,12 +15,15 @@ let forms = ref([])
 onMounted(() => {
    // get all forms
    axios.get(
-      `${BASE_URL}/forms`,
+      `${BACKEND_URL}/forms`,
       {
          headers: { Authorization: `Bearer ${localStorage.getItem('accessToken')}` }
       }).then(({ data }) => {
          console.log(data)
          forms.value = data.forms
+      }).catch(() => {
+         localStorage.removeItem('accessToken')
+         router.push('/')
       })
 })
 </script>

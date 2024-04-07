@@ -70,9 +70,10 @@ class ResponseController extends Controller
         $validator = Validator::make($request->all(), [
            'answers' => 'required|array',
            'answers.*.question_id' => 'required|exists:questions,id',
-           'answers.*.value' => 'required_if:question.is_required,true',
+           'answers.*.value' => 'required_if:question.is_required,1',
         ]);
 
+        // dd($validator->validated()['answers']);
         // if validation fails
         if ($validator->fails()) {
             return response()->json([
@@ -85,6 +86,7 @@ class ResponseController extends Controller
         $checkResponse = Response::where('user_id', $user->id)
             ->where('form_id', $form->id)
             ->get();
+
         if ($checkResponse){
             return response()->json([
                 'message' => "You can not submit twice",

@@ -12,6 +12,10 @@ Route::prefix('v1')->group(function () {
     Route::prefix('auth')->group(function () {
         Route::post('/login', LoginController::class);
         Route::post('/logout', LogoutController::class);
+
+        Route::get('/me', function () {
+            return auth('sanctum')->user();
+        });
     });  
 
     // === required login ===    
